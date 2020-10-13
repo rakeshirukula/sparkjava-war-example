@@ -1,0 +1,17 @@
+--- 
+- hosts : all 
+  become : yes 
+  vars :
+    packages :
+      - git 
+      - openjdk-8-jdk
+      - maven 
+      - elinks 
+      - nano
+  tasks :
+    - name : installing "{{ item}}"
+      apt :
+        name : "{{item}}"
+        state : present 
+        update_cache : yes 
+      loop : "{{packages}}" 
