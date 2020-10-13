@@ -1,0 +1,22 @@
+--- 
+- import_playbook: abc.yaml
+- hosts : all 
+  become : yes 
+  vars :
+    webpacks : 
+      - apache2
+  tasks :
+    - name : installing "{{item}}"
+      apt :
+        name : "{{item}}"
+        state : present 
+        update_cache : yes 
+      loop : "{{webpacks}}" 
+      notify :
+       - service_apache2
+  handlers : 
+    - name : service_apache2
+      service :
+        name : apache2 
+        enabled : yes
+        state : started
